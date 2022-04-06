@@ -1,25 +1,12 @@
 <template>
 <div>
     <v-card color="white" flat tile style="width: 100vw">
-      <v-row  class="mx-2 my-0" justify="space-between" align="center">
+      <v-row  class="mx-0 my-0" justify="space-between" align="center">
         <v-col cols="auto">
-          <span class="display-1">Мои заказы</span>
+          <span class="display-1 font-weight-bold">Мои заказы</span>
         </v-col>
         <v-col cols="auto">
-          <span
-            ><svg
-              width="14"
-              height="15"
-              viewBox="0 0 14 15"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M6 6.5V0.5H8V6.5H14V8.5H8V14.5H6V8.5H0V6.5H6Z"
-                fill="black"
-              />
-            </svg>
-          </span>
+            <v-switch inset color="#22B573"></v-switch>
         </v-col>
       </v-row>
       <v-row justify="center" align="center" style="margin: 0.4px 0px">
@@ -33,12 +20,12 @@
             fixed-tabs
             class="tab_card"
           >
-            <v-tab key="newOrder" active-class="colorDone"
+            <v-tab key="orders" active-class="colorDone"
 >
-              <v-badge color="green" content="12"> Новый </v-badge>
+              <v-badge color="green" content="3"> Заказы </v-badge>
             </v-tab>
-            <v-tab key="proccess" active-class="colorDone">В процессе</v-tab>
-            <v-tab key="finished" active-class="colorDone">Готов</v-tab>
+            <v-tab key="restaurant" active-class="colorDone">У ресторана</v-tab>
+            <v-tab key="on-way" active-class="colorDone">В пути</v-tab>
           </v-tabs>
         </v-col>
       </v-row>
@@ -46,7 +33,7 @@
     <v-card class="mt-4" flat tile color="transparent">
       <v-tabs-items v-model="tab" background-color="transparent" >
             <v-tab-item active-class="colorDone" style="background-color: #E5E5E5 !important">
-              <New />
+                <New :openDialog="openDialog" :dialog="dialog"/>
             </v-tab-item>
             <v-tab-item style="background-color: #E5E5E5 !important">
                 <Process />
@@ -54,8 +41,12 @@
             <v-tab-item style="background-color: #E5E5E5 !important">
                 <Finish />
             </v-tab-item>
+            <v-tab-item style="background-color: #E5E5E5 !important">
+                <Finish />
+            </v-tab-item>
           </v-tabs-items>
     </v-card>
+    <Dialog :openDialog="openDialog" :dialog="dialog"/>
   </div>
 </template>
 
@@ -63,11 +54,33 @@
 import Finish from './finishedOrder'
 import New from './newOrder'
 import Process from './processOrder'
+import Dialog from './components/Dialog.vue'
 export default {
   data () {
     return {
-      tab: 'newOrder'
+      tab: 'newOrder',
+      dialog: {
+        dialog: false
+      }
     }
+  },
+  methods: {
+    openDialog (value) {
+      this.dialog.dialog = value
+    },
+    takeToTab (status) {
+      switch (status) {
+        case 'orders':
+          return 0
+        case 'restaurant':
+          return 1
+        case 'on-way':
+          return 2
+        default:
+          return 0
+      }
+    }
+
   },
   watch: {
     tab (value) {
@@ -77,21 +90,21 @@ export default {
         case 0:
           this.$router.replace({
             query: {
-              status: 'newOrder'
+              status: 'orders'
             }
           }).catch(er => {})
           break
         case 1:
           this.$router.replace({
             query: {
-              status: 'proccess'
+              status: 'restaurant'
             }
           }).catch(er => {})
           break
         case 2:
           this.$router.replace({
             query: {
-              status: 'finished'
+              status: 'on-way'
             }
           }).catch(er => {})
           break
@@ -101,9 +114,9 @@ export default {
       }
     }
   },
-  components: { Finish, New, Process },
+  components: { Finish, New, Process, Dialog },
   created () {
-    this.tab = this.$route.query.status ? this.$route.query.status : 'newOrder'
+    this.tab = this.$route.query.status ? this.takeToTab(this.$route.query.status) : 'orders'
   }
 }
 </script>

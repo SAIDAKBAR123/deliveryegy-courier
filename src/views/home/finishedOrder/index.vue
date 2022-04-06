@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <status-card v-for="item in 15" :query="$route.query" :key="item" status="finished"/>
+      <status-card v-for="item in 1" :query="$route.query" :key="item" status="finished"/>
       <template v-if="false">
         <svg
           width="78"

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <status-card v-for="item in 15" :key="item" :element="{}" :query="$route.query" status="process"/>
+      <status-card v-for="item in 1" :key="item" :element="{}" :query="$route.query" status="process"/>
       <template v-if="false">
         <svg
           width="78"

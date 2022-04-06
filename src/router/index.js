@@ -11,8 +11,8 @@ const routes = [
     component: Home
   },
   {
-    path: '/product/:id',
-    name: 'Product-definition',
+    path: '/info/:id',
+    name: 'Indo-definition',
     component: () => import('../views/home/components/Definition.vue')
   }
   // {
