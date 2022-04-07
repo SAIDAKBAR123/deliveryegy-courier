@@ -33,17 +33,26 @@
     <v-card class="mt-4" flat tile color="transparent">
       <v-tabs-items v-model="tab" background-color="transparent" >
             <v-tab-item active-class="colorDone" style="background-color: #E5E5E5 !important">
-                <New :openDialog="openDialog" :dialog="dialog"/>
+                 <template
+                 v-if="!$store.state.user"
+                    >
+                   <v-skeleton-loader
+                   v-for="i in 3" :key="i"
+                    class="mx-auto"
+                    type="card"
+                  ></v-skeleton-loader>
+                 </template>
+                <New :orders="orders" v-else :openDialog="openDialog" :dialog="dialog"/>
             </v-tab-item>
             <v-tab-item style="background-color: #E5E5E5 !important">
-                <Process />
+                <Process :orders="restaurantOrders"/>
             </v-tab-item>
             <v-tab-item style="background-color: #E5E5E5 !important">
+                <Finish :orders="onWayOrders"/>
+            </v-tab-item>
+            <!-- <v-tab-item style="background-color: #E5E5E5 !important">
                 <Finish />
-            </v-tab-item>
-            <v-tab-item style="background-color: #E5E5E5 !important">
-                <Finish />
-            </v-tab-item>
+            </v-tab-item> -->
           </v-tabs-items>
     </v-card>
     <Dialog :openDialog="openDialog" :dialog="dialog"/>
@@ -55,16 +64,37 @@ import Finish from './finishedOrder'
 import New from './newOrder'
 import Process from './processOrder'
 import Dialog from './components/Dialog.vue'
+import Courier from '../../services/courier'
 export default {
   data () {
     return {
-      tab: 'newOrder',
+      tab: 0,
+      orders: [],
+      onWayOrders: [],
+      restaurantOrders: [],
       dialog: {
         dialog: false
       }
     }
   },
   methods: {
+    getTakenOrders (guid) {
+      Courier.getCourierOrders(guid).then(res => {
+        console.log(res)
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    getOrders () {
+      Courier.getOrders().then(res => {
+        console.log(res)
+        this.orders = res.orders.filter(el => el.status === 'new')
+        this.restaurantOrders = res.orders.filter(el => el.status === 'restaurant')
+        this.onWayOrders = res.orders.filter(el => el.status === 'on-way')
+      }).catch(err => {
+        console.log(err)
+      })
+    },
     openDialog (value) {
       this.dialog.dialog = value
     },
@@ -116,6 +146,8 @@ export default {
   },
   components: { Finish, New, Process, Dialog },
   created () {
+    this.getTakenOrders(this.$store.state.user.guid)
+    this.getOrders()
     this.tab = this.$route.query.status ? this.takeToTab(this.$route.query.status) : 'orders'
   }
 }

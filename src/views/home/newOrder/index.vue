@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <status-card v-for="item in 2" :key="item" :query="$route.query" :openDialog="openDialog" :dialog="dialog" status="orders"/>
+      <status-card v-for="item in orders" :order="item" :key="item.guid" :query="$route.query" :openDialog="openDialog" :dialog="dialog" status="orders"/>
       <template v-if="false">
         <svg
           width="78"
@@ -46,7 +46,7 @@
 
 <script>
 export default {
-  props: ['openDialog', 'dialog'],
+  props: ['openDialog', 'dialog', 'orders'],
   created () {
     this.$router.replace({
       query: {

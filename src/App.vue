@@ -34,15 +34,17 @@
       <transition name="component-fade" mode="out-in">
       <router-view></router-view>
       </transition>
-
+      <Login />
     </v-container>
   </v-main>
 </v-app>
 </template>
 
 <script>
+import Login from './views/login'
 export default {
   components: {
+    Login
   },
   data: () => ({
   }),

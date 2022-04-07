@@ -83,9 +83,9 @@
         </v-card>
       </v-card>
       <v-footer fixed>
-        <v-btn elevation="0" block class="rounded-lg my-2" large color="#F3F3F0"
+        <!-- <v-btn elevation="0" block class="rounded-lg my-2" large color="#F3F3F0"
           >Пропустить</v-btn
-        >
+        > -->
         <v-btn elevation="0" @click="$router.push('/info/234')" block dark class="rounded-lg mb-2" large color="#22B573"
           >Принять</v-btn
         >
