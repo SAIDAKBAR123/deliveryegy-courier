@@ -87,9 +87,9 @@
               Go
             </v-btn>
           </v-col>
-          <v-col cols="4">
+          <v-col cols="4"               v-if="$route.query.status == 'on-way'"
+>
             <v-btn
-              v-if="$route.query.status == 'on-way'"
               @click="updateStatus(order, 'courier-delivered')"
               elevation="0"
               large

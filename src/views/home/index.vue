@@ -51,13 +51,23 @@
                 <Process :orders="restaurantOrders" :updateStatus="updateStatus"/>
             </v-tab-item>
             <v-tab-item style="background-color: #E5E5E5 !important">
-                <Finish :orders="onWayOrders"/>
+                <Finish :orders="onWayOrders" :updateStatus="updateStatus"/>
             </v-tab-item>
             <!-- <v-tab-item style="background-color: #E5E5E5 !important">
                 <Finish />
             </v-tab-item> -->
           </v-tabs-items>
     </v-card>
+    <v-footer fixed>
+      <v-row justify="center">
+        <v-col cols="auto">
+          <v-btn elevation="0" class="px-0" to="/my-orders">My orders</v-btn>
+        </v-col>
+        <v-col cols="auto" class="px-0">
+          <v-btn elevation="0" color="red" dark rounded @click="leave">Leave</v-btn>
+        </v-col>
+      </v-row>
+    </v-footer>
     <Dialog :openDialog="openDialog" :dialog="dialog"/>
   </div>
 </template>
@@ -134,6 +144,11 @@ export default {
         default:
           return 0
       }
+    },
+    leave () {
+      localStorage.removeItem('user')
+      this.$store.commit('REMOVE')
+      window.location.reload()
     }
 
   },

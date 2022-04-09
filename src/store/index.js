@@ -11,6 +11,9 @@ export default new Vuex.Store({
     SET_LOGIN (state, payload) {
       localStorage.setItem('user', JSON.stringify(payload))
       state.user = payload
+    },
+    REMOVE (state) {
+      state.user = null
     }
   },
   actions: {

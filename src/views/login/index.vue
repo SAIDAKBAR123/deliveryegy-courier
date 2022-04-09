@@ -50,15 +50,12 @@ export default {
         ...this.user
       }).then(res => {
         if (res.exist) {
-          console.log({
-            name: res.name ? res.name : 'default',
-            ...res
-          })
           this.$store.commit('SET_LOGIN', {
             name: res.name ? res.name : 'default',
             ...res
           })
           this.dialog = false
+          window.location.reload()
         } else {
           alert('Wrong login or password')
           this.user = {}

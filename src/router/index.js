@@ -14,12 +14,12 @@ const routes = [
     path: '/info/:id',
     name: 'Indo-definition',
     component: () => import('../views/home/components/Definition.vue')
+  },
+  {
+    path: '/my-orders',
+    name: 'my-orders',
+    component: () => import('../views/orders/index.vue')
   }
-  // {
-  //   path: '/product/:id',
-  //   name: 'product-id',
-  //   component: () => import('../views/products/index.vue')
-  // }
 ]
 
 const router = new VueRouter({
