@@ -1,9 +1,10 @@
 <template>
 <div>
-    <v-card color="white" flat tile style="width: 100vw">
+    <v-card img="https://t3.ftcdn.net/jpg/02/67/83/92/360_F_267839295_jVbzpVskpRpnPaq3xLFjjX9gYjNRocxN.jpg" flat tile style="width: 100vw">
       <v-row  class="mx-0 my-0" justify="space-between" align="center">
         <v-col cols="auto">
-          <span class="display-1 font-weight-bold">Мои заказы</span>
+          <span class="display-1 font-weight-bold">My orders</span>
+          <p>{{ $store.state.user.name }}</p>
         </v-col>
         <v-col cols="auto">
             <v-switch inset color="#22B573"></v-switch>
@@ -22,10 +23,10 @@
           >
             <v-tab key="orders" active-class="colorDone"
 >
-              <v-badge color="green" content="3"> Заказы </v-badge>
+              <v-badge color="green" :content="orders.length"> Orders </v-badge>
             </v-tab>
-            <v-tab key="restaurant" active-class="colorDone">У ресторана</v-tab>
-            <v-tab key="on-way" active-class="colorDone">В пути</v-tab>
+            <v-tab key="restaurant" active-class="colorDone">In restaurant</v-tab>
+            <v-tab key="on-way" active-class="colorDone">On way</v-tab>
           </v-tabs>
         </v-col>
       </v-row>
@@ -42,10 +43,12 @@
                     type="card"
                   ></v-skeleton-loader>
                  </template>
-                <New :orders="orders" v-else :openDialog="openDialog" :dialog="dialog"/>
+                <v-card color="transparent"  v-else tile flat>
+                  <New :orders="orders" :openDialog="openDialog" :dialog="dialog"/>
+                </v-card>
             </v-tab-item>
             <v-tab-item style="background-color: #E5E5E5 !important">
-                <Process :orders="restaurantOrders"/>
+                <Process :orders="restaurantOrders" :updateStatus="updateStatus"/>
             </v-tab-item>
             <v-tab-item style="background-color: #E5E5E5 !important">
                 <Finish :orders="onWayOrders"/>
@@ -78,6 +81,18 @@ export default {
     }
   },
   methods: {
+    updateStatus (element, status) {
+      console.log(element, status)
+      Courier.updateOrderStatus({
+        guid: element.guid,
+        courier_id: this.$store.state.user.guid,
+        status
+      }).then(res => {
+        console.log(res)
+        alert('updated successfully')
+        window.location.reload()
+      })
+    },
     getTakenOrders (guid) {
       Courier.getCourierOrders(guid).then(res => {
         console.log(res)
@@ -86,16 +101,26 @@ export default {
       })
     },
     getOrders () {
-      Courier.getOrders().then(res => {
+      Courier.getCourierOrders(this.$store.state.user.guid).then(res => {
         console.log(res)
-        this.orders = res.orders.filter(el => el.status === 'new')
-        this.restaurantOrders = res.orders.filter(el => el.status === 'restaurant')
-        this.onWayOrders = res.orders.filter(el => el.status === 'on-way')
+        this.restaurantOrders = res.orders.filter(el => el.status === 'courier-accepted')
+        this.onWayOrders = res.orders.filter(el => el.status === 'courier-on-way')
+      }).catch(err => {
+        console.log(err)
+      })
+      Courier.getOrders().then(res => {
+        this.orders = res.orders.filter(el => el.status === 'restaurant-ready')
       }).catch(err => {
         console.log(err)
       })
     },
-    openDialog (value) {
+    openDialog (value, item) {
+      this.dialog = {
+        ...this.dialog,
+        ...item
+      }
+      console.log(this.dialog)
+
       this.dialog.dialog = value
     },
     takeToTab (status) {

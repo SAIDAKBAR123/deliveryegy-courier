@@ -6,7 +6,7 @@
           <v-btn fab text @click="$router.go(-1)"><v-icon>mdi-chevron-left</v-icon></v-btn>
         </v-col>
         <v-col cols="auto" class="py-0 ml-1" dark>
-          <v-card-title dark>Заказ №134231</v-card-title>
+          <v-card-title dark>Order №134231</v-card-title>
         </v-col>
       </v-row>
     </v-card>

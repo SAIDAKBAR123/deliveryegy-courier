@@ -10,6 +10,5 @@ const req = {
   getCourierOrders: (guid) => request({ method: 'get', url: `/courier/${guid}/list-orders` }),
   updateOrderStatus: (data) => request({ method: 'put', url: '/order/update-status', data }),
   getOrders: (data) => request({ method: 'get', url: '/order/list', data })
-
 }
 export default req
