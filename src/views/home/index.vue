@@ -1,13 +1,13 @@
 <template>
 <div>
-    <v-card img="https://t3.ftcdn.net/jpg/02/67/83/92/360_F_267839295_jVbzpVskpRpnPaq3xLFjjX9gYjNRocxN.jpg" flat tile style="width: 100vw">
+    <v-card height="220" img="https://t3.ftcdn.net/jpg/02/67/83/92/360_F_267839295_jVbzpVskpRpnPaq3xLFjjX9gYjNRocxN.jpg" flat tile style="width: 100vw">
       <v-row  class="mx-0 my-0" justify="space-between" align="center">
         <v-col cols="auto">
           <span class="display-1 font-weight-bold">My orders</span>
           <p>{{ $store.state.user.name }}</p>
         </v-col>
         <v-col cols="auto">
-            <v-switch inset color="#22B573"></v-switch>
+            <v-switch @change="setVisibility" v-model="itemVisible" inset color="#22B573"></v-switch>
         </v-col>
       </v-row>
       <v-row justify="center" align="center" style="margin: 0.4px 0px">
@@ -31,7 +31,7 @@
         </v-col>
       </v-row>
     </v-card>
-    <v-card class="mt-4" flat tile color="transparent">
+    <v-card class="mt-4" flat tile color="transparent" v-if="!itemVisible">
       <v-tabs-items v-model="tab" background-color="transparent" >
             <v-tab-item active-class="colorDone" style="background-color: #E5E5E5 !important">
                  <template
@@ -82,6 +82,7 @@ export default {
   data () {
     return {
       tab: 0,
+      itemVisible: localStorage.getItem('visibily') === 'true',
       orders: [],
       onWayOrders: [],
       restaurantOrders: [],
@@ -91,6 +92,10 @@ export default {
     }
   },
   methods: {
+    setVisibility (element) {
+      this.itemVisible = element
+      localStorage.setItem('visibily', element)
+    },
     updateStatus (element, status) {
       console.log(element, status)
       Courier.updateOrderStatus({
@@ -153,6 +158,7 @@ export default {
 
   },
   watch: {
+
     tab (value) {
       console.log(this.$route.query)
 
