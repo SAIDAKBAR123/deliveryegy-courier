@@ -1,13 +1,13 @@
 <template>
 <div>
-    <v-card height="220" img="https://t3.ftcdn.net/jpg/02/67/83/92/360_F_267839295_jVbzpVskpRpnPaq3xLFjjX9gYjNRocxN.jpg" flat tile style="width: 100vw">
+    <v-card height="220" color="blue lighten-2" flat tile style="width: 100vw">
       <v-row  class="mx-0 my-0" justify="space-between" align="center">
         <v-col cols="auto">
           <span class="display-1 font-weight-bold">My orders</span>
           <p>{{ $store.state.user.name }}</p>
         </v-col>
         <v-col cols="auto">
-            <v-switch @change="setVisibility" v-model="itemVisible" inset color="#22B573"></v-switch>
+            <v-switch @change="setVisibility" v-model="itemVisible" inset color="orange darken-2"></v-switch>
         </v-col>
       </v-row>
       <v-row justify="center" align="center" style="margin: 0.4px 0px">

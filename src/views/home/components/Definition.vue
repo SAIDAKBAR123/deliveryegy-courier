@@ -62,7 +62,7 @@
       <v-card-actions>
           <v-row justify="space-between" >
               <v-col cols="auto"><span class="body font-weight-bold">Общая сумма:</span></v-col>
-              <v-col cols="auto"><span class="body font-weight-bold">57 000 сум</span></v-col>
+              <v-col cols="auto"><span class="body font-weight-bold">{{ order.total_price }} сум</span></v-col>
           </v-row>
       </v-card-actions>
     </v-card>

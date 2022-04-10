@@ -1,19 +1,19 @@
 <template>
   <div>
-      <v-card img="https://t3.ftcdn.net/jpg/02/67/83/92/360_F_267839295_jVbzpVskpRpnPaq3xLFjjX9gYjNRocxN.jpg">
-             <v-row class="mx-0 my-0" justify="space-between" align="center">
-      <v-col cols="auto">
-        <span class="display-1 font-weight-bold">My orders</span>
-        <p>{{ $store.state.user.name }}</p>
-      </v-col>
-    </v-row>
-      </v-card>
+    <v-card color="blue lighten-2" height="120">
+      <v-row class="mx-0 my-0" justify="space-between" align="center">
+        <v-col cols="auto">
+          <span class="display-1 font-weight-bold">My orders</span>
+          <p>{{ $store.state.user.name }}</p>
+        </v-col>
+      </v-row>
+    </v-card>
     <v-row>
       <v-col cols="12" v-for="item in orders" :key="item.guid">
         <Card :order="item" status="finished" />
       </v-col>
     </v-row>
-     <v-footer fixed>
+    <v-footer fixed>
       <v-row justify="center">
         <v-col cols="auto">
           <v-btn elevation="0" class="px-0" to="/">Main</v-btn>
