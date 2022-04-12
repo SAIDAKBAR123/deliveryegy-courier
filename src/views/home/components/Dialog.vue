@@ -45,7 +45,7 @@
                   ><v-icon left size="24" color="green"
                     >mdi-silverware-fork-knife</v-icon
                   >
-                  {{ dialog.price }} uzs
+                  {{ orderPrice(dialog.products) }} uzs
                 </span>
               </v-col>
               <v-col cols="auto">
@@ -53,7 +53,7 @@
               </v-col>
               <v-col cols="auto">
                 <span>
-                  <v-icon left size="24" color="green">mdi-bike</v-icon> 4 000
+                  <v-icon left size="24" color="green">mdi-bike</v-icon> {{ dialog.delivery_price}}
                   uzs
                 </span>
               </v-col>
@@ -62,7 +62,7 @@
               </v-col>
               <v-col cols="auto">
                 <span>
-                  <v-icon size="30" color="green">mdi-cash</v-icon> cash.
+                  <v-icon size="30" color="green">mdi-cash</v-icon> {{ dialog.payment_type }}.
                 </span>
               </v-col>
             </v-row>
@@ -105,11 +105,17 @@ export default {
     }
   },
   methods: {
+    orderPrice (list = []) {
+      return list.reduce((acc, curr) => {
+        acc = acc + curr.price
+        return acc
+      }, 0)
+    },
     accept () {
       console.log(this.$route, this.$store.state.user)
       this.loading = true
       Courier.updateOrderStatus({
-        courier_id: this.dialog.guid,
+        courier_id: this.$store.state.user.guid,
         guid: this.dialog.guid,
         status: 'courier-accepted'
       }).then(res => {
