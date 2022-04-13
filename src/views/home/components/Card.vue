@@ -49,7 +49,7 @@
               <v-icon left size="24" color="green"
                 >mdi-silverware-fork-knife</v-icon
               >
-              {{ order.price }} uzs
+              {{ orderPrice(order.products) }} uzs
             </v-btn>
           </v-col>
           <v-col cols="auto">
@@ -58,7 +58,7 @@
           <v-col cols="auto">
             <v-btn text>
               <v-icon left size="24" color="green">mdi-bike</v-icon>
-              {{ order.comission }} %
+              {{ order.delivery_price }} uzs
             </v-btn>
           </v-col>
           <v-col cols="auto" v-if="$route.query.status == 'orders'">
@@ -110,7 +110,15 @@
 <script>
 export default {
   props: ['status', 'query', 'updateStatus', 'order', 'openDialog'],
-  created () {}
+  created () {},
+  methods: {
+    orderPrice (list = []) {
+      return list.reduce((acc, curr) => {
+        acc = acc + curr.price
+        return acc
+      }, 0)
+    }
+  }
 }
 </script>
 
