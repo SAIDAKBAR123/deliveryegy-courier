@@ -58,8 +58,8 @@
             </v-tab-item> -->
           </v-tabs-items>
     </v-card>
-    <v-footer fixed>
-      <v-row justify="center">
+    <v-footer height="120">
+      <v-row justify="center" align="center">
         <v-col cols="auto">
           <v-btn elevation="0" class="px-0" to="/my-orders">My orders</v-btn>
         </v-col>

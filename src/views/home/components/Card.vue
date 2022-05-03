@@ -10,7 +10,7 @@
           : null
       "
       class="mb-2 my-auto"
-      height="280"
+      height="auto"
       color="white"
       style="border: 1px solid red"
       tile
@@ -61,7 +61,7 @@
               {{ order.delivery_price }} uzs
             </v-btn>
           </v-col>
-          <v-col cols="auto" v-if="$route.query.status == 'orders'">
+          <v-col cols="12" v-if="$route.query.status == 'orders'">
             <v-btn
               @click="openDialog(true, order)"
               elevation="0"
@@ -74,7 +74,7 @@
               Accept
             </v-btn>
           </v-col>
-          <v-col cols="2" v-if="$route.query.status == 'restaurant'">
+          <v-col cols="12" v-if="$route.query.status == 'restaurant'">
             <v-btn
               @click="updateStatus(order, 'courier-on-way')"
               elevation="0"
@@ -87,7 +87,7 @@
               Go
             </v-btn>
           </v-col>
-          <v-col cols="4"               v-if="$route.query.status == 'on-way'"
+          <v-col cols="12" v-if="$route.query.status == 'on-way'"
 >
             <v-btn
               @click="updateStatus(order, 'courier-delivered')"
@@ -113,10 +113,10 @@ export default {
   created () {},
   methods: {
     orderPrice (list = []) {
-      return list.reduce((acc, curr) => {
+      return list ? list.reduce((acc, curr) => {
         acc = acc + curr.price
         return acc
-      }, 0)
+      }, 0) : []
     }
   }
 }
